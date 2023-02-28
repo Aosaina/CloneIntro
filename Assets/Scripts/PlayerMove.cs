@@ -15,6 +15,9 @@ public class PlayerMove : MonoBehaviour
     bool haveKey = false;
 
     public GameObject NpcTextNoKey;
+    public GameObject NpcTextYesKey;
+    public GameObject NpcTextExit;
+
 
     //public GameObject NpcText;
 
@@ -53,14 +56,44 @@ public class PlayerMove : MonoBehaviour
         if (haveKey == true && other.gameObject.name == "door")
         {
             Destroy(other.gameObject);
+            //play sound
 
         }
 
-        if(other.gameObject.name == "npc" && !haveKey)
+        if(other.gameObject.name == "npc" && !haveKey && Input.GetKey(KeyCode.Space))
+        {
+            Debug.Log("you have no key");
+           
+                //play sound
+          
+            NpcTextNoKey.SetActive(true);
+            
+            
+        }
+
+        if (other.gameObject.name == "npc" && haveKey && Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("you have the key!");
+            //Input.GetKeyDown(KeyCode.Space);
+            //play sound
+            NpcTextYesKey.SetActive(true);
+        }
+
+        if (other.gameObject.name == "npc2")
         {
             Input.GetKeyDown(KeyCode.Space);
-            NpcTextNoKey.SetActive(true);
+            //play sound
+            NpcTextExit.SetActive(true);
         }
 
+        void OnTriggerExit2D(Collider2D other)
+        {
+            if(other.gameObject.name == "npc")
+            {
+                NpcTextYesKey.SetActive(false);
+                NpcTextNoKey.SetActive(false);
+
+            }
+        }
     }
 }
