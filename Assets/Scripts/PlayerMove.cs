@@ -14,6 +14,8 @@ public class PlayerMove : MonoBehaviour
 
     bool haveKey = false;
 
+    public GameObject NpcTextNoKey;
+
     //public GameObject NpcText;
 
     // Start is called before the first frame update
@@ -52,6 +54,12 @@ public class PlayerMove : MonoBehaviour
         {
             Destroy(other.gameObject);
 
+        }
+
+        if(other.gameObject.name == "npc" && !haveKey)
+        {
+            Input.GetKeyDown(KeyCode.Space);
+            NpcTextNoKey.SetActive(true);
         }
 
     }
