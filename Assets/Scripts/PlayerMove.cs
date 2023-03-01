@@ -52,7 +52,16 @@ public class PlayerMove : MonoBehaviour
     {
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
     }
-    
+
+    void OnCollisionStay2D(Collision2D other)
+    {
+        if (haveKey == true && other.gameObject.name == "door")
+        {
+            mySource.PlayOneShot(doorSound);
+            Destroy(other.gameObject);
+        }
+    }
+
     void OnTriggerStay2D(Collider2D other)
     {
         //Debug.Log(other.gameObject.name);
@@ -63,13 +72,6 @@ public class PlayerMove : MonoBehaviour
             Destroy(other.gameObject);
         }
 
-        if (haveKey == true && other.gameObject.name == "door")
-        {
-            mySource.PlayOneShot(doorSound);
-            Destroy(other.gameObject);
-          
-
-        }
       
         
         if(other.gameObject.name == "npc" && Input.GetKeyDown(KeyCode.Space))
@@ -93,7 +95,8 @@ public class PlayerMove : MonoBehaviour
 
         if (other.gameObject.name == "bush" && endGame)
         {
-            //scene change
+            SceneManager.LoadScene(0);
+            mySource.PlayOneShot(npcSound);
         }
 
 
