@@ -18,6 +18,11 @@ public class PlayerMove : MonoBehaviour
     public GameObject NpcTextYesKey;
     public GameObject NpcTextExit;
 
+    public AudioSource mySource;
+    public AudioClip keySound;
+    public AudioClip doorSound;
+    public AudioClip npcSound;
+
 
     //public GameObject NpcText;
 
@@ -50,50 +55,51 @@ public class PlayerMove : MonoBehaviour
         if (other.gameObject.name == "key")
         {
             haveKey = true;
+            mySource.PlayOneShot(keySound);
             Destroy(other.gameObject);
         }
 
         if (haveKey == true && other.gameObject.name == "door")
         {
+            mySource.PlayOneShot(doorSound);
             Destroy(other.gameObject);
             //play sound
 
         }
 
-        if(other.gameObject.name == "npc" && !haveKey && Input.GetKey(KeyCode.Space))
+        if(other.gameObject.name == "npc" && !haveKey)
         {
             Debug.Log("you have no key");
-           
-                //play sound
-          
+
+            mySource.PlayOneShot(npcSound);
             NpcTextNoKey.SetActive(true);
             
             
         }
 
-        if (other.gameObject.name == "npc" && haveKey && Input.GetKeyDown(KeyCode.Space))
+        if (other.gameObject.name == "npc" && haveKey)
         {
             Debug.Log("you have the key!");
             //Input.GetKeyDown(KeyCode.Space);
-            //play sound
+            mySource.PlayOneShot(npcSound);
             NpcTextYesKey.SetActive(true);
         }
 
         if (other.gameObject.name == "npc2")
         {
             Input.GetKeyDown(KeyCode.Space);
-            //play sound
+            mySource.PlayOneShot(npcSound);
             NpcTextExit.SetActive(true);
         }
 
         void OnTriggerExit2D(Collider2D other)
         {
-            if(other.gameObject.name == "npc")
+            if (other.gameObject.name == "npc")
             {
                 NpcTextYesKey.SetActive(false);
                 NpcTextNoKey.SetActive(false);
-
             }
         }
+
     }
 }
